@@ -7,6 +7,7 @@ const knex = require('knex')({
   }
 })
 
+knex.schema.dropTableIfExists('data')
 knex.schema.hasTable('data').then(exists => !exists ? createDataTable() : '')
 
 function createDataTable() {

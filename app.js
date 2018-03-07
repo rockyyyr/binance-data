@@ -11,7 +11,7 @@ app.use('/', require('./routes'))
 async function start() {
 
   try {
-    await database.drop('data')
+    await database.deleteFrom('data')
     const response = await binance.change()
     await tasks.init(response.data)
 
