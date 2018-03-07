@@ -1,5 +1,11 @@
-const config = require('./config.json')
-const knex = require('knex')(config)
+const knex = require('knex')({
+  client: 'mysql2',
+  connection: process.env.CLEARDB_DATABASE_URL || require('./config.json'),
+  pool: {
+    max: 7,
+    min: 0
+  }
+})
 
 knex.schema.hasTable('data').then(exists => !exists ? createDataTable() : '')
 
