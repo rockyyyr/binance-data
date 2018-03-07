@@ -32,9 +32,18 @@ function update(table, data, key, value) {
   })
 }
 
+function drop(table){
+  return new Promise((resolve, reject) => {
+    knex.schema.dropTable('data')
+      .then(reject())
+      .catch(err => reject(err))
+  })
+}
+
 module.exports = {
   insert,
   select,
   selectWhere,
-  update
+  update,
+  drop
 }

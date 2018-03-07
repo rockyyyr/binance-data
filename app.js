@@ -3,6 +3,7 @@ const cors = require('cors')
 
 const binance = require('./src/binance')
 const tasks = require('./src/tasks')
+const database = require('./database')
 
 app.use(cors())
 app.use('/', require('./routes'))
@@ -10,6 +11,7 @@ app.use('/', require('./routes'))
 async function start() {
 
   try {
+    await database.drop('data')
     const response = await binance.change()
     await tasks.init(response.data)
 
