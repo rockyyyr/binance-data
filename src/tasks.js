@@ -31,6 +31,7 @@ async function monitor(data) {
 
     if (coin) {
       if (x.lastPrice >= coin.target) {
+        console.log('target reached for ' + x.symbol)
         database.update(table, {
           end_time: timestamp()
         }, 'symbol', x.symbol)

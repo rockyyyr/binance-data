@@ -21,7 +21,7 @@ async function start() {
       } catch (err) {
         throw err
       }
-    }, 1000 * 5)
+    }, 1000 * 60 * 5)
 
   } catch (err) {
     console.error(err)
