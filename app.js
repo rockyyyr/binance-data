@@ -17,6 +17,7 @@ async function start() {
 
     setInterval(async () => {
       try {
+        console.log('running monitor...')
         const response = await binance.change()
         await tasks.monitor(response.data)
 
