@@ -9,7 +9,7 @@ router.get('/report', async (req, res) => {
 })
 
 router.get('/history', async (req, res) => {
-  const data = database.select('history')
+  const data = await database.select('history')
   res.json(data)
 })
 
