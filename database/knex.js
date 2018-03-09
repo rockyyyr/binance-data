@@ -7,8 +7,12 @@ const knex = require('knex')({
   }
 })
 
-knex.schema.dropTableIfExists('data')
-knex.schema.hasTable('data').then(exists => !exists ? createDataTable() : '')
+knex.schema.hasTable('data').then(exists => {
+  if (!exists) createDataTable()
+})
+knex.schema.hasTable('history').then(exists => {
+  if (!exists) createHistoryTable()
+})
 
 function createDataTable() {
   knex.schema.createTable('data', column => {
@@ -17,9 +21,17 @@ function createDataTable() {
     column.decimal('change')
     column.decimal('price', 16, 8)
     column.decimal('target', 16, 8)
-    column.string('end_time')
-    
+    column.decimal('current_price', 16, 8).defaultTo(0)
+
   }).then(() => console.log('data table created'))
+}
+
+function createHistoryTable() {
+  knex.schema.createTable('history', column => {
+    column.string('symbol')
+    column.string('time_to_target')
+
+  }).then(() => console.log('history table created'))
 }
 
 module.exports = knex

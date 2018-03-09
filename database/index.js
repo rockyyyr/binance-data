@@ -40,10 +40,19 @@ function deleteFrom(table){
   })
 }
 
+function deleteWhere(table, key, value){
+  return new Promise((resolve, reject) => {
+    knex(table).del().where(key, value)
+      .then(resolve)
+      .catch(reject)
+  })
+}
+
 module.exports = {
   insert,
   select,
   selectWhere,
   update,
-  deleteFrom
+  deleteFrom,
+  deleteWhere
 }

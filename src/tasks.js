@@ -26,18 +26,31 @@ async function init(data) {
 async function monitor(data) {
   const history = await database.select(table)
 
-  data.forEach(x => {
+  data.forEach(async x => {
     const coin = getSymbol(history, x.symbol)
 
     if (coin) {
       if (x.lastPrice >= coin.target) {
+
         console.log('target reached for ' + x.symbol)
-        database.update(table, {
-          end_time: timestamp()
-        }, 'symbol', x.symbol)
+
+        await database.update('data', {
+          current_price: x.lastPrice
+        })
+        
+        await database.insert('history', {
+          symbol: coin.symbol,
+          time_to_target: timeDifference(coin.start_time, timestamp())
+        })
+
       }
     }
   })
+}
+
+function timeDifference(start, end){
+  const seconds = (end - start) / 1000 
+  return (seconds / 3600)
 }
 
 function getSymbol(array, symbol) {

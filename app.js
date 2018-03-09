@@ -1,23 +1,21 @@
 const app = require('express')()
+const bodyParser = require('body-parser')
 const cors = require('cors')
 
 const binance = require('./src/binance')
 const tasks = require('./src/tasks')
 const database = require('./database')
 
+app.use(bodyParser.json())
 app.use(cors())
 app.use('/', require('./routes'))
 
 async function start() {
 
   try {
-    await database.deleteFrom('data')
-    const response = await binance.change()
-    await tasks.init(response.data)
 
     setInterval(async () => {
       try {
-        console.log('running monitor...')
         const response = await binance.change()
         await tasks.monitor(response.data)
 
@@ -31,6 +29,6 @@ async function start() {
   }
 }
 
-start()
+// start()
 
 module.exports = app
